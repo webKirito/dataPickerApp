@@ -13,12 +13,12 @@ export default class Form {
                     <input type="text" class="toInput">
                 </section>
             </section>
+            <section class="test"></section>
             <section class="btnWrapper">
                     <button class="btn btnCancel">Cancel</button>
                     <button class="btn btnApply">Apply</button>
             </section>
             </div>
-            <section class="test"></section>
         `
     }
 

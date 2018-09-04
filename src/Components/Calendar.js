@@ -1,27 +1,21 @@
 export default class Calendar {
 
-    static switchMounthMonthRight({month, year, setState}) {
+    static switchMonthRight({month, year}) {
         ++month;
         if (month > 11) {
             month = 0;
             year++;
         }
-        setState({
-            month, year
-        })
-        this.render({month, year})
+        return {month, year};
     }
     
-    static switchMounthMonthLeft({month, year, setState}) {
+    static switchMonthLeft({month, year}) {
         --month;
         if (month < 1) {
             month = 11;
             year--;
         }
-        setState({
-            month, year
-        })
-        this.render({month, year})
+        return {month, year};
     }
 
     static render({month = 5, year = 2016}) {
@@ -63,13 +57,12 @@ export default class Calendar {
             ${list.map(weekObj => {
                 return `<div class="week">
                     ${Object.values(weekObj).map(day => {
-                        return `<div class="day">${day}</div>`
+                        return `<div class="day" data-date="${monthArr[month] + " " + day + " " + year}">${day}</div>`
                     }).join('')}
                 </div>`
             }).join('')}
         </div>`;
         test.innerHTML = view;
-        console.log(view);
-        return '';
+        console.log(test);
     }
 }

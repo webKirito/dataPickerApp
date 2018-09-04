@@ -1,0 +1,15 @@
+@mixin flex($fl-d, $al-i, $j-c) {
+    display: flex;
+    flex-direction: $fl-d;
+    align-items: $al-i;
+    justify-content: $j-c
+}
+
+@mixin  marginAndPadding($m, $p) {
+    margin: $m;
+    padding: $p;
+}
+
+@mixin borderRadius($r) {
+    border-radius: $r;
+}

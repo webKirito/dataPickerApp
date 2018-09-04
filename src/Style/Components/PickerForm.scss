@@ -1,0 +1,42 @@
+.choosenDateText {
+    padding: 10px;
+}
+
+.durationInput, .timezoneInput {
+    width: 80%;
+}
+
+.fromToWrapper {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnWrapper {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btnCancel {
+    border: 2px solid grey;
+    background-color: white;
+    color: grey;
+}
+
+.btnApply {
+    border: 2px solid red;
+    background-color: red;
+    color: white;
+    margin-left: 20px;
+}
+

@@ -9,7 +9,6 @@
     position: absolute;
     top : 0;
     left : 0;
-    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -28,8 +27,8 @@
 
 .week > div , .day {
     margin: 5px;
-    width: 45px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     text-align: center;
     display: flex;
     align-items: center;
@@ -38,6 +37,19 @@
 }
 
 .choosenDay {
+    
+}
+
+.currentDay {
+    border-radius: 50%;
+    border: 2px solid rgb(80, 92, 109);  
+}
+
+.notActiveDay {
+    color : grey;
+}
+
+.activeDay {
     border-radius: 50%;
     color: white;
     background-color: rgb(80, 92, 109);

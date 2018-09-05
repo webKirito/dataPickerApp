@@ -1,10 +1,16 @@
 export default class App {
     constructor(componentsObj) {
         this.date = new Date();
+        this.monthArr =  ['January','February','March','April','May','June','July','August','September','October','November','December'];
         this.state = {
             day : this.date.getDay(),
             month : this.date.getMonth(),
-            year : this.date.getFullYear()
+            year : this.date.getFullYear(),
+            calendarIsShown : false,
+            calendarCaller: '',
+            currentDay : `${this.monthArr[this.date.getMonth()] + " " + (this.date.getDay() + 2) + " " + this.date.getFullYear()}`,
+            lowerDateBorder : 0,
+            upperDateBorder : Number.POSITIVE_INFINITY
         };
         this.components = componentsObj;
         this.view = document.querySelector('.app');
@@ -14,27 +20,15 @@ export default class App {
         this.view.innerHTML = '';
         for (let compKey in this.components) {
             if (compKey === 'calendar') {
-                this.components[compKey].render({month : this.state.month, year : this.state.year});
+                this.components[compKey].render({month : this.state.month, year : this.state.year, currentDay : this.state.currentDay});
             } else {
                 this.view.innerHTML += this.components[compKey].render();
             }
         }
-        // this.components.calendar.render({month : this.state.month, year : this.state.year});
-        // this.view.innerHTML = `
-        //     ${Object.keys(this.components).map(
-        //         (compKey) => {
-        //             if (compKey === 'calendar') {
-        //                 return this.components[compKey].render({month : this.state.month, year : this.state.year});
-        //             } else {
-        //                 return this.components[compKey].render();
-        //             }
-        //         }
-        //     ).join('')}
-        // `
     }
 
     setState(obj) {
-        this.state = {...obj};
+        this.state = {...this.state,...obj};
     }
 
     renderComponent(key, params = null) {
@@ -45,38 +39,72 @@ export default class App {
         this.view.addEventListener('click', (e) => {
             if (e.target.className === "fromInput") {
                 let calendar = document.querySelector('.calendar');
-                calendar.classList.add('show');
-                console.log(calendar);
+                this.setState({
+                    calendarCaller : '.fromInput',
+                    calendarIsShown : true
+                })
+                this.renderComponent('calendar', {
+                    ...this.state, 
+                    caller : this.state.calendarCaller,
+                    lowerDateBorder : this.state.lowerDateBorder,
+                    upperDateBorder : this.state.upperDateBorder
+                })
+            }
+            if (e.target.className === "toInput") {
+                let calendar = document.querySelector('.calendar');
+                this.setState({
+                    calendarCaller : '.toInput',
+                    calendarIsShown : true
+                })
+                this.renderComponent('calendar', {
+                    ...this.state, 
+                    caller : this.state.calendarCaller,
+                    lowerDateBorder : this.state.lowerDateBorder,
+                    upperDateBorder : this.state.upperDateBorder
+                })
             }
             if (e.target.classList.contains('prevBtn')) {
-                this.state = {...this.components['calendar'].switchMonthLeft({month : this.state.month, year : this.state.year})};
-                this.renderComponent('calendar' , {month : this.state.month, year : this.state.year});
-                // console.log(e.target.className)
+                this.setState({
+                    ...this.components['calendar'].switchMonthLeft({
+                        month : this.state.month, 
+                        year : this.state.year
+                    }),
+                    calendarIsShown : true,
+                    currentDay : this.state.currentDay
+                })
+                this.renderComponent('calendar' , {...this.state});
             }
             if (e.target.classList.contains('nextBtn')) {
-                this.state = {...this.components['calendar'].switchMonthRight({month : this.state.month, year : this.state.year})};
-                this.renderComponent('calendar', {month : this.state.month, year : this.state.year});
+                this.setState({
+                    ...this.components['calendar'].switchMonthRight({
+                        month : this.state.month, 
+                        year : this.state.year
+                    }),
+                    calendarIsShown : true,
+                    currentDay : this.state.currentDay
+                })
+                this.renderComponent('calendar' , {...this.state});
             } 
             if (e.target.classList.contains('day')) {
-                let calendar = document.querySelector('.calendar');
-                calendar.classList.remove('show');
                 let date = new Date(e.target.dataset.date).toLocaleString();
+                document.querySelector(this.state.calendarCaller).value = date;
+
+                if (this.state.calendarCaller === '.fromInput') {
+                    this.setState({
+                        lowerDateBorder : new Date(e.target.dataset.date).getTime()
+                    })
+                } else {
+                    this.setState({
+                        upperDateBorder : new Date(e.target.dataset.date).getTime()
+                    })
+                }
+                
+                this.setState({
+                    calendarIsShown : false
+                });
+                this.renderComponent('calendar' , {...this.state, calendarIsShown : this.state.calendarIsShown});
+                
                 console.log(date);
-            }
-        })
-        this.view.addEventListener('focus', e => {
-            if (e.target.className === "fromInput") {
-                // console.log(e.target.className)
-                
-                
-            }
-        })
-        this.view.addEventListener('blur', e => {
-            if (e.target.className === "fromInput") {
-                // console.log(e.target.className)
-                let calendar = e.target.closest('.calendar');
-                calendar.classList.remove('.shown');
-                console.log(calendar);
             }
         })
     }

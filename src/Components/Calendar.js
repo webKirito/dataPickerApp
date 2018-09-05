@@ -18,13 +18,25 @@ export default class Calendar {
         return {month, year};
     }
 
-    static render({month = 5, year = 2016}) {
+    static getNumberOfWeeks(month, year, daysNumber) {
+        let numberOfWeeks = 0;
+        let startDay = 0;
+        for (let i = 1 ; i < daysNumber; i++) {
+            let dayOfWeek = new Date(year, month, i).getDay();
+            if (dayOfWeek === startDay) {
+                numberOfWeeks++;
+            }
+        }
+        return numberOfWeeks;
+    }
+
+    static render({month = 5, year = 2016, calendarIsShown = false, caller = '', currentDay = '', lowerDateBorder = 0, upperDateBorder = Number.POSITIVE_INFINITY }) {
         const test = document.querySelector('.test');
         const monthArr = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         const weekArr = ["Mon","Tues","Wed","Thu","Fri","Sat","Sun"];
         let daysInMounth = new Date(year, month + 1, 0).getDate();
-        let numberOfWeeks = Math.trunc(daysInMounth / 7) + 1;
         let firstDayIndexInWeek = new Date(monthArr[month] + " " + 1 + " " + year).getDay();
+        let numberOfWeeks = Math.ceil((daysInMounth + firstDayIndexInWeek) / 7);
         let list = [];
         let counter = 0;
         for (let i = 0 ; i < numberOfWeeks; i++) {
@@ -42,8 +54,8 @@ export default class Calendar {
                 } 
             }
         }
-        console.log(list);
-        let view = `<div class="calendar">
+        console.log("Calendar is shown", calendarIsShown, "Number of days", daysInMounth);
+        let view = `<div class="calendar" style="display:${Calendar.calendarVisibility(calendarIsShown)}">
             <div class="navigation">
                 <div class="btn prevBtn"><</div>
                 <div class="title">${monthArr[month]},${year}</div>
@@ -57,12 +69,23 @@ export default class Calendar {
             ${list.map(weekObj => {
                 return `<div class="week">
                     ${Object.values(weekObj).map(day => {
-                        return `<div class="day" data-date="${monthArr[month] + " " + day + " " + year}">${day}</div>`
+                        let dayInStr = `${monthArr[month] + " " + day + " " + year}`;
+                        return `<div class="day ${Calendar.curentDayStyle(dayInStr, currentDay)} ${Calendar.daysOutOfBorderStyle(lowerDateBorder, upperDateBorder, dayInStr)}" data-date="${dayInStr}">${day}</div>`
                     }).join('')}
                 </div>`
             }).join('')}
         </div>`;
         test.innerHTML = view;
         console.log(test);
+    }
+    static calendarVisibility(bool) {
+        return bool ? 'flex' : 'none';
+    } 
+    static curentDayStyle(d1, d2) {
+        return d1 == d2 ? "currentDay" : '';
+    }
+    static daysOutOfBorderStyle(b1 , b2, currentDayText) {
+        let currentDayInMs = new Date(currentDayText).getTime();
+        return (currentDayInMs < b1 & currentDayInMs > b2) ? "notActiveDay" : "activeDay";
     }
 }

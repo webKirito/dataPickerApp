@@ -1,20 +1,105 @@
+$appThemeColor : rgb(80, 92, 109);
+$fromToInputPadding : 5px;
+$margin-top : 10px;
+$inputFSize : 15px;
+
+
 .choosenDateText {
     padding: 10px;
 }
 
-.durationInput, .timezoneInput {
-    width: 80%;
+input {
+    outline-color: $appThemeColor;
+}
+
+.durationDropdown, .timezoneDropdown {
+    width: 90%;
+    margin-top: $margin-top;
+    display: flex;
+    flex-direction: column;
+    i {
+        position: absolute;
+        right: $fromToInputPadding + 3px;
+        top: calc(50% - 0.5em);
+    }
+    input {
+        padding: $fromToInputPadding;
+        width: 100%;
+        font-size: $inputFSize;
+    }
+    .durationDropdownItems{
+        z-index: 3;
+    }
+    .timezoneDropdownItems {
+        z-index: 2;
+    }
+    .optionWrapper {
+        width: 100%;
+        position: relative;
+    }
+    .durationDropdownItems, .timezoneDropdownItems {
+        position: absolute;
+        top : 0;
+        left : 0;
+        border: 1px solid $appThemeColor;
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: white;
+    }
+}
+
+.show {
+    display:flex !important;
+}
+
+.durOption {
+    font-size:  $inputFSize;
+    padding: 10px;
+    transition: .3s ease-in;
+    cursor: pointer;
+}
+
+.durOption:hover {
+    color: white;
+    background-color: $appThemeColor;
+}
+
+.selectedOption {
+    color: white;
+    background-color: $appThemeColor;
+}
+
+.inputWrapper {
+    display : flex;
+    position : relative;
 }
 
 .fromToWrapper {
-    width: 80%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: $margin-top;
+    
+        i {
+            position: absolute;
+            right: $fromToInputPadding + 3px;
+            top: calc(50% - 0.5em);
+        }
+        input {
+            padding: $fromToInputPadding;
+        }
+    
+    section > div {
+        margin : $margin-top 0;
+    }
+    
 }
 
 .btnWrapper {
-    width: 80%;
+    margin : $margin-top 0 $margin-top * 2 0;
+    width: 90%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -25,6 +110,7 @@
     outline: none;
     border: none;
     cursor: pointer;
+    transition: all 0.3 ease-in;
 }
 
 .btnCancel {
@@ -33,10 +119,23 @@
     color: grey;
 }
 
+.btnCancel:hover {
+    background-color: gray;
+    color: white;
+}
+
 .btnApply {
     border: 2px solid red;
     background-color: red;
     color: white;
     margin-left: 20px;
+    transition: transform .5s ease-in; 
+}
+
+.btnApply:hover {
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+    transform: rotateX(360deg);
 }
 

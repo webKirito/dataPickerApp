@@ -3,8 +3,14 @@
 .header {
     display: flex;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     font-size: 1.2rem;
     border-bottom: 1px solid rgb(80, 92, 109);
+    .choosenDateText {
+        white-space: pre;
+    }
+    i {
+        margin-right: 10px;
+    }
 }

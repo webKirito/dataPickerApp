@@ -1,18 +1,22 @@
-.test {
+$appThemeColor : rgb(80, 92, 109);
+$appWidth: 500px;
+
+.calendarWrapper {
     position: relative;
     top : 0;
     left: 0;
-    width: 80%;
+    width: 90%;
 }
 
 .calendar {
     position: absolute;
-    top : 0;
+    top : -10px;
     left : 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: white;
+    border: 1px solid $appThemeColor;
 }
 
 .show {
@@ -26,7 +30,7 @@
 }
 
 .week > div , .day {
-    margin: 5px;
+    margin: 0 ($appWidth * 0.9 / 7) / 5;
     width: 35px;
     height: 35px;
     text-align: center;
@@ -37,12 +41,14 @@
 }
 
 .choosenDay {
-    
+    border-radius: 50%;
+    color: white;
+    background-color: $appThemeColor;
 }
 
 .currentDay {
     border-radius: 50%;
-    border: 2px solid rgb(80, 92, 109);  
+    border: 2px solid $appThemeColor;  
 }
 
 .notActiveDay {
@@ -52,7 +58,7 @@
 .activeDay {
     border-radius: 50%;
     color: white;
-    background-color: rgb(80, 92, 109);
+    background-color: $appThemeColor;
 }
 
 .navigation {
@@ -60,4 +66,15 @@
     justify-content: space-between;
     align-items: center;
     width : 100%;
+    font-weight: bold;
+    color : rgb(80, 92, 109);
+    margin : 10px 0px;
+    .title {
+        text-transform: uppercase;
+    }
+}
+
+.weekItem {
+    color :$appThemeColor;
+    font-weight: bold;
 }

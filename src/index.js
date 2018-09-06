@@ -10,6 +10,5 @@ let app = new App({
     calendar : Calendar
 })
 
-app.init();
+app.init()
 
-console.log(...[1,2,3])
